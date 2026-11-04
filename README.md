@@ -24,7 +24,7 @@
 Обновления из оригинала забираются вручную, через ревью: `git fetch upstream && git merge upstream/main`. Остальная часть README описывает оригинал, ссылки на npm, PyPI и skills.sh ведут к пакетам автора, а не к этому форку.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Версия](https://img.shields.io/badge/версия-3.32.0-blueviolet)](https://github.com/ilyautov/humanizer-ru/blob/main/CHANGELOG.md)
+[![Версия](https://img.shields.io/badge/версия-3.32.1-blueviolet)](https://github.com/ilyautov/humanizer-ru/blob/main/CHANGELOG.md)
 [![Звёзды](https://img.shields.io/github/stars/ilyautov/humanizer-ru?style=social)](https://github.com/ilyautov/humanizer-ru/stargazers)
 [![skills.sh](https://skills.sh/b/ilyautov/humanizer-ru)](https://skills.sh/ilyautov/humanizer-ru/humanizer-ru)
 [![npm](https://img.shields.io/npm/v/humanizer-ru?label=npm%20%C2%B7%20dsh)](https://www.npmjs.com/package/humanizer-ru)
