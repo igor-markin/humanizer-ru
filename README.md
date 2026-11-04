@@ -4,6 +4,25 @@
 
 > [English version](README.en.md) · [中文](README.zh.md)
 
+## Форк igor-markin
+
+Это форк [ilyautov/humanizer-ru](https://github.com/ilyautov/humanizer-ru) с версии 3.32.0 (коммит `b6df5d9`). Отличия от оригинала:
+
+- Скилл не скачивает пакеты во время работы. Запасной путь через `uvx ru-humanizer` убран из `references/scan.md` и `references/audit.md`, агенту прямо запрещено ставить пакеты самому.
+- Зависимости сканера ставятся один раз в отдельный venv: `bash skills/humanizer-ru/scripts/setup_venv.sh`. Версии и sha256 всех пакетов зафиксированы в `skills/humanizer-ru/scripts/requirements.lock`, системный Python не меняется. Venv по умолчанию лежит в `~/.venvs/humanizer-ru`, другой путь задаёт `HUMANIZER_RU_VENV`.
+- `scan.py` сам находит этот venv и перезапускает себя его интерпретатором, поэтому команда в SKILL.md осталась прежней.
+- Режим «Свой черновик» выключен: скилл больше не вычитывает молча весь русский вывод агента и работает только по просьбе.
+- Маркетплейс Claude Code называется `igor-markin-plugins`, чтобы не путать его с оригиналом.
+
+Установка в Claude Code:
+
+```bash
+/plugin marketplace add igor-markin/humanizer-ru
+/plugin install humanizer-ru@igor-markin-plugins
+```
+
+Обновления из оригинала забираются вручную, через ревью: `git fetch upstream && git merge upstream/main`. Остальная часть README описывает оригинал, ссылки на npm, PyPI и skills.sh ведут к пакетам автора, а не к этому форку.
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Версия](https://img.shields.io/badge/версия-3.32.0-blueviolet)](https://github.com/ilyautov/humanizer-ru/blob/main/CHANGELOG.md)
 [![Звёзды](https://img.shields.io/github/stars/ilyautov/humanizer-ru?style=social)](https://github.com/ilyautov/humanizer-ru/stargazers)
@@ -35,8 +54,8 @@ npx skills add ilyautov/humanizer-ru
 CLI найдёт установленных агентов и спросит, куда ставить. В Claude Code можно и плагином, тогда обновления приходят через `/plugin`:
 
 ```
-/plugin marketplace add ilyautov/humanizer-ru
-/plugin install humanizer-ru@ilyautov-plugins
+/plugin marketplace add igor-markin/humanizer-ru
+/plugin install humanizer-ru@igor-markin-plugins
 ```
 
 Claude.ai, DeepSeek Harness и раскатка на команду в [разделе «Установка»](#установка).
@@ -80,7 +99,7 @@ Claude.ai, DeepSeek Harness и раскатка на команду в [разд
 - Редактура (по умолчанию): диагностика сканером, разметка, правка, сверка, отчёт «было N, стало M»
 - Аудит: только диагностика, текст не трогает
 - Точечная правка: работа с одной категорией
-- Свой черновик (молча, без просьбы): пока скилл установлен, агент прогоняет по таблице жёстких банов то, что пишет по-русски сам, до того как вы это увидите. Чужой текст молча не правится никогда: ваше сообщение, файл, цитата и чужой код идут только через режимы выше, и правку вы видите. «Не правь» выключает режим до конца разговора
+- Свой черновик: в этом форке режим выключен, скилл работает только по просьбе. Чужой текст молча не правится никогда
 
 **Что ловят детекторы:** секция с числами из исследований 2025-2026. DivEye: вторые производные surprisal дают 39.4% вклада в детекцию. Perplexity gap 29.5 vs 15.2 (человек vs LLM). AINL-Eval 2025: лучший результат на тесте около 86% (бенчмарк из 52 305 текстов, 12 доменов; в нашей калибровке использованы 35 158 научных аннотаций из него). Все ссылки и цифры верифицированы по первоисточникам, см. [SOURCES.md](SOURCES.md).
 
@@ -118,8 +137,8 @@ Claude.ai, DeepSeek Harness и раскатка на команду в [разд
 **Через плагин-маркетплейс** (рекомендуется):
 
 ```
-/plugin marketplace add ilyautov/humanizer-ru
-/plugin install humanizer-ru@ilyautov-plugins
+/plugin marketplace add igor-markin/humanizer-ru
+/plugin install humanizer-ru@igor-markin-plugins
 ```
 
 После установки плагин подгружает скилл автоматически при триггерах вроде «очеловечь», «убери канцелярит», «перепиши как человек».

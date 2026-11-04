@@ -1,9 +1,8 @@
 {
-  "name": "ilyautov-plugins",
-  "description": "Plugins by Ilya Utov: humanizer-ru, a Russian text quality editor | Плагины Ильи Утова: humanizer-ru, редактура русского текста",
+  "name": "igor-markin-plugins",
+  "description": "Fork of ilyautov/humanizer-ru by igor-markin: no runtime package downloads, no silent self-editing mode | Форк ilyautov/humanizer-ru: без скачивания пакетов во время работы и без молчаливой вычитки своего текста",
   "owner": {
-    "name": "Ilya Utov",
-    "email": "ilyautov@gmail.com"
+    "name": "Igor Markin"
   },
   "plugins": [
     {

@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -30,13 +31,22 @@ try:
     from humanizer_metrics.repeats import REPEAT_MAX_TOKENS, REPEAT_N
     from humanizer_metrics.structure import structure_verdict
 except ImportError as exc:
+    # Форк: зависимости живут в отдельном venv (scripts/setup_venv.sh).
+    # Системный python3 их не видит, поэтому сканер один раз перезапускает
+    # себя интерпретатором из venv. Пакеты из сети здесь не ставятся.
+    _venv = Path(os.environ.get("HUMANIZER_RU_VENV")
+                 or Path.home() / ".venvs" / "humanizer-ru")
+    _venv_python = _venv / "bin" / "python"
+    if (_venv_python.exists()
+            and Path(sys.prefix).resolve() != _venv.resolve()
+            and not os.environ.get("HUMANIZER_RU_REEXEC")):
+        os.environ["HUMANIZER_RU_REEXEC"] = "1"
+        os.execv(str(_venv_python),
+                 [str(_venv_python), str(Path(__file__).resolve()), *sys.argv[1:]])
     print(f"[ошибка] не хватает зависимостей сканера ({exc.name}); балла не будет.\n"
-          "Поставьте один раз любым способом:\n"
-          "  uvx ru-humanizer файл.txt        (без установки, нужен uv)\n"
-          "  pipx install ru-humanizer        (даёт команду ru-humanizer)\n"
-          "  отдельный venv с razdel и pymorphy3 (команды в README, раздел про зависимости)\n"
-          "Системный pip на macOS с Homebrew и на Debian/Ubuntu падает с\n"
-          "externally-managed-environment (PEP 668): системный Python закрыт для pip.",
+          "Поставьте их один раз в отдельный venv (версии и хеши зафиксированы):\n"
+          f"  bash {Path(__file__).resolve().parent / 'setup_venv.sh'}\n"
+          f"venv по умолчанию: {_venv}; другой путь задаёт HUMANIZER_RU_VENV.",
           file=sys.stderr)
     raise SystemExit(2)
 
